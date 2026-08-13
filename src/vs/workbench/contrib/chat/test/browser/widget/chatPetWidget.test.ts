@@ -498,7 +498,7 @@ suite('ChatPetWidget', () => {
 	});
 
 	test('matches sprite sources without browser URL normalization', () => {
-		const source = 'vscode-file://vscode-app/Applications/Visual Studio Code - Insiders.app/pet.gif';
+		const source = 'vscode-file://vscode-app/Applications/Kronos Code - Insiders.app/pet.gif';
 		const image = document.createElement('img');
 		image.src = source;
 

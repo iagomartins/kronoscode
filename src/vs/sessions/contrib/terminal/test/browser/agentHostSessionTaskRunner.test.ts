@@ -218,7 +218,7 @@ suite('AgentHostSessionTaskRunner', () => {
 		const transpile: ITaskEntry = { label: 'Transpile Client', type: 'shell', command: 'npm', args: ['run', 'transpile'] };
 		const runDev: ITaskEntry = { label: 'Run Dev', type: 'shell', command: 'npm', args: ['run', 'dev'] };
 		const top: ITaskEntry = {
-			label: 'Run and Compile Code - OSS',
+			label: 'Run and Compile Kronos Code',
 			dependsOn: ['Transpile Client', 'Run Dev'],
 			dependsOrder: 'sequence',
 			inAgents: true,

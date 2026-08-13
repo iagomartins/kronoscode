@@ -6,7 +6,7 @@
 /**
  * Agent host end-to-end tests (Copilot customizations, mocked LLM).
  *
- * agent host log file: ~/.vscode-insiders/tmp/tmp_vscode_1/ahp-customizations-home-mock-ZBucPX/Library/Application Support/Code - OSS Dev/logs/20260701T192836/agenthost-server.log
+ * agent host log file: ~/.vscode-insiders/tmp/tmp_vscode_1/ahp-customizations-home-mock-ZBucPX/Library/Application Support/Kronos Code Dev/logs/20260701T192836/agenthost-server.log
  */
 
 import assert from 'assert';
