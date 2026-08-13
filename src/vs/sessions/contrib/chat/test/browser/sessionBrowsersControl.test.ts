@@ -167,7 +167,7 @@ suite('SessionBrowsersControl', () => {
 
 	test('renders single and aggregate labels, icons, and fallback', () => {
 		const cases: IControlSpec[] = [
-			{ browsers: [{ title: 'Visual Studio Code' }] },
+			{ browsers: [{ title: 'Kronos Code' }] },
 			{ browsers: [{}] },
 			{ browsers: [{ title: 'Docs' }, { title: 'Preview' }] },
 		];
@@ -178,7 +178,7 @@ suite('SessionBrowsersControl', () => {
 			disabledVisible: disabled.control.isVisible.get(),
 		}, {
 			enabled: [
-				{ text: 'Visual Studio Code', ariaLabel: 'Open Visual Studio Code', icons: ['globe'] },
+				{ text: 'Kronos Code', ariaLabel: 'Open Kronos Code', icons: ['globe'] },
 				{ text: 'Browser', ariaLabel: 'Open Browser', icons: ['globe'] },
 				{ text: '2 Active Browsers', ariaLabel: 'Show 2 browsers', icons: ['globe', 'chevron-down'] },
 			],

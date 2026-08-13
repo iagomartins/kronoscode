@@ -1,5 +1,6 @@
 {
-  "name": "code-oss-dev",
+  "name": "kronos-code",
+  "displayName": "Kronos Code",
   "version": "1.134.0",
   "distro": "0a2adcd7a64dfe443b6122097cd88f5958c22147",
   "author": {
