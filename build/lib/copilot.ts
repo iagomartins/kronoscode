@@ -278,13 +278,13 @@ export function prepareBuiltInCopilotRipgrepShim(platform: string, arch: string,
 	}
 
 	const ripgrepDest = path.join(copilotSdkBase, 'ripgrep', 'bin', platformArch);
-	const shimMarkerPath = path.join(copilotBase, 'shims.txt');
+	// const shimMarkerPath = path.join(copilotBase, 'shims.txt');
 
 	try {
 		fs.mkdirSync(ripgrepDest, { recursive: true });
 		fs.cpSync(ripgrepSource, ripgrepDest, { recursive: true });
 
-		fs.writeFileSync(shimMarkerPath, 'Shims created successfully');
+		//fs.writeFileSync(shimMarkerPath, 'Shims created successfully');
 		console.log(`[prepareBuiltInCopilotRipgrepShim] Materialized ripgrep shim for ${platformArch} in ${builtInCopilotExtensionDir}`);
 	} catch (err) {
 		throw new Error(`[prepareBuiltInCopilotRipgrepShim] Failed to materialize ripgrep shim for ${platformArch}: ${err}`);

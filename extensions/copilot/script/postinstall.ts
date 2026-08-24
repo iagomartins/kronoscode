@@ -158,8 +158,9 @@ async function materializeCopilotCliSdkLayout(): Promise<string> {
 }
 
 async function removeCopilotCLIShim() {
-	const shimsPath = path.join(COPILOT_PACKAGE_DIR, 'shims.txt');
-	await fs.promises.rm(shimsPath, { force: true }).catch(() => { /* ignore */ });
+	return;
+	//const shimsPath = path.join(COPILOT_PACKAGE_DIR, 'shims.txt');
+	//await fs.promises.rm(shimsPath, { force: true }).catch(() => { /* ignore */ });
 }
 
 async function removeCopilotCliWorkerFiles() {
