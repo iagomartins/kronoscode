@@ -1,5 +1,5 @@
-name: Detect Agent Host E2E changes
-description: Determines whether a pull request can affect the Agent Host end-to-end tests.
+name: Detect Kronos Core E2E changes
+description: Determines whether a pull request can affect the core Kronos end-to-end tests.
 
 inputs:
   token:
@@ -8,7 +8,7 @@ inputs:
 
 outputs:
   affected:
-    description: "'true' when the Agent Host E2E tests may be affected."
+    description: "'true' when the core E2E tests may be affected."
     value: ${{ steps.detect.outputs.affected }}
 
 runs:
@@ -16,7 +16,7 @@ runs:
   steps:
     - name: Detect relevant changes
       id: detect
-      uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+      uses: actions/github-script@v7
       with:
         github-token: ${{ inputs.token }}
         script: |

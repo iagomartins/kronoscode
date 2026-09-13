@@ -42,10 +42,10 @@ suite('AgentHostInternalTelemetrySender', () => {
 					},
 				}, {
 					actualRequestService: requestService,
-					eventPrefix: 'GitHub.copilot-chat',
+					eventPrefix: 'kronos.moonshot',
 					commonProperties: {
 						version: '1.130.0',
-						extensionName: 'GitHub.copilot-chat',
+						extensionName: 'kronos.moonshot',
 						extensionVersion: '0.58.0',
 						vscodeMachineId: 'machine-id',
 						vscodeVersion: '1.130.0',

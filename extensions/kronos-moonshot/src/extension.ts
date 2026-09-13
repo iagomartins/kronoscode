@@ -9,8 +9,11 @@ const PARTICIPANT_ID = 'kronos-ai';
 const CONFIG_SECTION = 'kronos.moonshot';
 const SET_API_KEY_COMMAND = 'kronos.moonshot.setApiKey';
 const OPEN_SETTINGS_COMMAND = 'kronos.moonshot.openSettings';
+const API_KEY_SECRET = 'kronos.moonshot.apiKey';
 const DEFAULT_MODEL = 'moonshot-v1-8k';
 const BASE_URL = 'https://api.moonshot.cn/v1';
+const MAX_REFERENCE_BYTES = 2 * 1024 * 1024;
+const MAX_REFERENCE_CHARS = 30_000;
 const SYSTEM_PROMPT = 'You are K2 Moonshot, the Kronos Code AI assistant. Answer concisely, use Markdown, and use fenced code blocks with a language tag for code.';
 
 interface ChatMessage {
@@ -56,7 +59,10 @@ class MoonshotLanguageModelProvider implements vscode.LanguageModelChatProvider,
 	private readonly _onDidChangeLanguageModelChatInformation = new vscode.EventEmitter<void>();
 	readonly onDidChangeLanguageModelChatInformation = this._onDidChangeLanguageModelChatInformation.event;
 
-	constructor(private readonly log: vscode.LogOutputChannel) { }
+	constructor(
+		private readonly secrets: vscode.SecretStorage,
+		private readonly log: vscode.LogOutputChannel
+	) { }
 
 	provideLanguageModelChatInformation(): vscode.LanguageModelChatInformation[] {
 		const configuredModel = vscode.workspace.getConfiguration(CONFIG_SECTION).get<string>('defaultModel');
@@ -78,9 +84,9 @@ class MoonshotLanguageModelProvider implements vscode.LanguageModelChatProvider,
 		token: vscode.CancellationToken
 	): Promise<void> {
 		const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
-		const apiKey = config.get<string>('apiKey')?.trim();
+		const apiKey = await getApiKey(this.secrets);
 		if (!apiKey) {
-			throw vscode.LanguageModelError.NoPermissions('Set kronos.moonshot.apiKey to use Moonshot models.');
+			throw vscode.LanguageModelError.NoPermissions('Run "K2 Moonshot: Set Moonshot API Key" to use Moonshot models.');
 		}
 
 		const chatMessages: ChatMessage[] = [];
@@ -156,7 +162,11 @@ export function activate(context: vscode.ExtensionContext): void {
 			prompt: 'Enter your Moonshot API key',
 		});
 		if (value !== undefined) {
-			await vscode.workspace.getConfiguration(CONFIG_SECTION).update('apiKey', value, vscode.ConfigurationTarget.Global);
+			await context.secrets.store(API_KEY_SECRET, value);
+			const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
+			if (config.inspect<string>('apiKey')?.globalValue !== undefined) {
+				await config.update('apiKey', undefined, vscode.ConfigurationTarget.Global);
+			}
 			vscode.window.showInformationMessage('Moonshot API key saved.');
 		}
 	});
@@ -164,10 +174,10 @@ export function activate(context: vscode.ExtensionContext): void {
 		vscode.commands.executeCommand('workbench.action.openSettings', CONFIG_SECTION)
 	);
 	const participant = vscode.chat.createChatParticipant(PARTICIPANT_ID, (request, chatContext, stream, token) =>
-		handleRequest(request, chatContext, stream, token, log)
+		handleRequest(request, chatContext, stream, token, context.secrets, log)
 	);
 	participant.iconPath = new vscode.ThemeIcon('sparkle');
-	const provider = new MoonshotLanguageModelProvider(log);
+	const provider = new MoonshotLanguageModelProvider(context.secrets, log);
 	const configurationChange = vscode.workspace.onDidChangeConfiguration(event => {
 		if (event.affectsConfiguration(`${CONFIG_SECTION}.defaultModel`)) {
 			provider.fireModelChange();
@@ -182,13 +192,14 @@ async function handleRequest(
 	chatContext: vscode.ChatContext,
 	stream: vscode.ChatResponseStream,
 	token: vscode.CancellationToken,
+	secrets: vscode.SecretStorage,
 	log: vscode.LogOutputChannel
 ): Promise<vscode.ChatResult> {
 	const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
-	const apiKey = config.get<string>('apiKey')?.trim();
+	const apiKey = await getApiKey(secrets);
 	if (!apiKey) {
 		const markdown = new vscode.MarkdownString(
-			'**K2 Moonshot needs a Moonshot API key.**\n\nSet `kronos.moonshot.apiKey` to get started:\n\n- [Set API key](command:kronos.moonshot.setApiKey)\n- [Open settings](command:kronos.moonshot.openSettings)\n\nYou can create a key at https://platform.moonshot.cn/console/api-keys.'
+			'**K2 Moonshot needs a Moonshot API key.**\n\nRun **K2 Moonshot: Set Moonshot API Key** to store your key securely (it is kept in the OS keychain via SecretStorage, never in settings.json):\n\n- [Set API key](command:kronos.moonshot.setApiKey)\n- [Open settings](command:kronos.moonshot.openSettings)\n\nYou can create a key at https://platform.moonshot.cn/console/api-keys.'
 		);
 		markdown.isTrusted = { enabledCommands: [SET_API_KEY_COMMAND, OPEN_SETTINGS_COMMAND] };
 		stream.markdown(markdown);
@@ -213,11 +224,29 @@ async function handleRequest(
 
 	for (const reference of request.references) {
 		if (reference.value instanceof vscode.Uri) {
-			const text = new TextDecoder().decode(await vscode.workspace.fs.readFile(reference.value));
-			messages.push({ role: 'user', content: formatReference(reference.value, text) });
+			try {
+				const stat = await vscode.workspace.fs.stat(reference.value);
+				if (stat.size > MAX_REFERENCE_BYTES) {
+					messages.push({ role: 'user', content: `Reference \`${reference.value.path}\`: [File ignored: size exceeds 2MB limit]` });
+					log.info(`Skipping reference ${reference.value.path} (${stat.size} bytes > 2MB)`);
+					continue;
+				}
+				const text = new TextDecoder().decode(await vscode.workspace.fs.readFile(reference.value));
+				messages.push({ role: 'user', content: formatReference(reference.value, text) });
+			} catch (error) {
+				const message = error instanceof Error ? error.message : String(error);
+				log.error(`Could not read reference ${reference.value.path}: ${message}`);
+				messages.push({ role: 'user', content: `Reference \`${reference.value.path}\`: [File could not be read]` });
+			}
 		} else if (reference.value instanceof vscode.Location) {
-			const document = await vscode.workspace.openTextDocument(reference.value.uri);
-			messages.push({ role: 'user', content: formatReference(reference.value.uri, document.getText(reference.value.range)) });
+			try {
+				const document = await vscode.workspace.openTextDocument(reference.value.uri);
+				messages.push({ role: 'user', content: formatReference(reference.value.uri, document.getText(reference.value.range)) });
+			} catch (error) {
+				const message = error instanceof Error ? error.message : String(error);
+				log.error(`Could not read reference ${reference.value.uri.path}: ${message}`);
+				messages.push({ role: 'user', content: `Reference \`${reference.value.uri.path}\`: [File could not be read]` });
+			}
 		}
 	}
 	messages.push({ role: 'user', content: request.prompt });
@@ -311,7 +340,43 @@ async function streamMoonshotCompletion(options: StreamMoonshotCompletionOptions
 }
 
 function formatReference(uri: vscode.Uri, text: string): string {
-	return `Reference \`${uri.path}\`:\n\`\`\`\n${text.slice(0, 30_000)}\n\`\`\``;
+	const truncated = text.length > MAX_REFERENCE_CHARS;
+	return `Reference \`${uri.path}\`:\n\`\`\`\n${text.slice(0, MAX_REFERENCE_CHARS)}${truncated ? '\n[truncated to 30,000 characters]' : ''}\n\`\`\``;
+}
+
+async function getApiKey(secrets: vscode.SecretStorage): Promise<string | undefined> {
+	// Step 1: Check native secret storage first
+	const stored = (await secrets.get(API_KEY_SECRET))?.trim();
+	if (stored) {
+		return stored;
+	}
+
+	// Step 2: Check new configuration namespace
+	const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
+	const newValue = config.inspect<string>('apiKey')?.globalValue?.trim();
+	if (newValue) {
+		await secrets.store(API_KEY_SECRET, newValue);
+		await config.update('apiKey', undefined, vscode.ConfigurationTarget.Global);
+		return newValue;
+	}
+
+	// Step 3: Check legacy configuration namespace (kronosCode.k2ApiKey)
+	const legacyConfig = vscode.workspace.getConfiguration('kronosCode');
+	const legacyValue = legacyConfig.inspect<string>('k2ApiKey')?.globalValue?.trim();
+	if (legacyValue) {
+		await secrets.store(API_KEY_SECRET, legacyValue);
+		await legacyConfig.update('k2ApiKey', undefined, vscode.ConfigurationTarget.Global);
+		return legacyValue;
+	}
+
+	// Step 4: Check legacy environment variable (K2_API_KEY)
+	const envValue = process.env.K2_API_KEY?.trim();
+	if (envValue) {
+		await secrets.store(API_KEY_SECRET, envValue);
+		return envValue;
+	}
+
+	return undefined;
 }
 
 function getErrorMessage(body: string): string {

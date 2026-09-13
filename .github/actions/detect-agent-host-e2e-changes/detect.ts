@@ -32,30 +32,20 @@ interface ICore {
 	setOutput(name: string, value: string): void;
 }
 
+// Arquivos exatos que disparam o CI (Apenas o core da IDE)
 const exactPaths = new Set([
-	'.nvmrc',
-	'.npmrc',
 	'package.json',
 	'package-lock.json',
-	'product.json',
-	'scripts/test-agent-host-e2e.ts',
-	'scripts/test-agent-host-e2e-child.ps1',
-	'scripts/test-integration.sh',
-	'scripts/test-integration.bat',
-	'scripts/test.sh',
-	'scripts/test.bat',
-	'src/vs/nls.ts',
+	'product.json'
 ]);
 
+// Pastas vitais (Removidos testes de integração legados e telemetria da MS)
 const pathPrefixes = [
-	'.github/actions/detect-agent-host-e2e-changes/',
-	'.github/workflows/pr',
 	'build/',
 	'src/bootstrap',
-	'src/tsconfig',
 	'src/vs/base/',
 	'src/vs/platform/',
-	'test/unit/electron/',
+	'extensions/kronos-moonshot/' // O seu ecossistema IA nativo
 ];
 
 function affectsAgentHostE2E(path: string): boolean {
@@ -76,7 +66,7 @@ export async function detectAgentHostE2EChanges(github: IGitHub, context: IConte
 		});
 	} catch (error) {
 		const message = error instanceof Error ? error.message : String(error);
-		core.warning(`Unable to list pull request files; running Agent Host E2E tests. ${message}`);
+		core.warning(`Unable to list pull request files; running Core tests by default. ${message}`);
 		core.setOutput('affected', 'true');
 		return;
 	}
@@ -88,11 +78,11 @@ export async function detectAgentHostE2EChanges(github: IGitHub, context: IConte
 	const affected = incomplete || paths.some(affectsAgentHostE2E);
 
 	if (incomplete) {
-		core.warning(`GitHub returned ${files.length} of ${expectedFileCount} changed files; running Agent Host E2E tests.`);
+		core.warning(`GitHub returned ${files.length} of ${expectedFileCount} changed files; running tests.`);
 	} else {
 		core.info(affected
-			? 'Agent Host E2E tests may be affected.'
-			: 'No changes can affect Agent Host E2E tests.');
+			? 'Kronos Core E2E tests may be affected.'
+			: 'No changes affect the core logic. Check passed.');
 	}
 	core.setOutput('affected', affected ? 'true' : 'false');
 }

@@ -9,7 +9,8 @@
 		"vscode": "^1.134.0"
 	},
 	"enabledApiProposals": [
-		"chatProvider"
+		"chatProvider",
+		"defaultChatParticipant"
 	],
 	"extensionKind": [
 		"ui",
@@ -46,8 +47,13 @@
 				"name": "kronos-ai",
 				"fullName": "K2 Moonshot",
 				"description": "%kronos.moonshot.participant.description%",
-				"isDefault": false,
-				"isSticky": true
+				"isDefault": true,
+				"isSticky": true,
+				"modes": [
+					"ask",
+					"agent",
+					"edit"
+				]
 			}
 		],
 		"commands": [
@@ -69,7 +75,8 @@
 					"type": "string",
 					"default": "",
 					"scope": "application",
-					"markdownDescription": "%kronos.moonshot.apiKey%"
+					"markdownDescription": "%kronos.moonshot.apiKey%",
+					"deprecationMessage": "%kronos.moonshot.apiKey.deprecated%"
 				},
 				"kronos.moonshot.defaultModel": {
 					"type": "string",
