@@ -27,7 +27,7 @@ import { getClaudeToolPath, isClaudeFileEditTool } from './claudeToolDisplay.js'
  * deliberately NOT used: they are user-bypassable via settings, whereas
  * the SDK message stream is the canonical, non-bypassable signal that
  * a tool will run. Mirrors the production extension's dispatch-time
- * observation (extensions/copilot/.../claudeMessageDispatch.ts:200) —
+ * observation in the Copilot Claude message dispatcher —
  * see the comment there about `bypassPermissions` and internal SDK
  * paths that skip `canUseTool`.
  *

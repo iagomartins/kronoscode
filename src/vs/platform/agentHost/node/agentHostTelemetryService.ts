@@ -217,15 +217,15 @@ export function isAgentHostTelemetryService(telemetryService: ITelemetryService)
 	return typeof (telemetryService as IAgentHostTelemetryService).updateTelemetryLevel === 'function';
 }
 
-async function resolveCopilotExtensionVersion(environmentService: INativeEnvironmentService, fileService: IFileService, logService: ILogService): Promise<string | undefined> {
+async function resolveMoonshotExtensionVersion(environmentService: INativeEnvironmentService, fileService: IFileService, logService: ILogService): Promise<string | undefined> {
 	if (!environmentService.builtinExtensionsPath) {
 		return undefined;
 	}
 	try {
-		const manifest = JSON.parse((await fileService.readFile(joinPath(URI.file(environmentService.builtinExtensionsPath), 'copilot', 'package.json'))).value.toString()) as { version?: unknown };
+		const manifest = JSON.parse((await fileService.readFile(joinPath(URI.file(environmentService.builtinExtensionsPath), 'kronos-moonshot', 'package.json'))).value.toString()) as { version?: unknown };
 		return typeof manifest.version === 'string' ? manifest.version : undefined;
 	} catch (error) {
-		logService.debug(`[agentHostTelemetry] Failed to resolve Copilot extension version: ${error instanceof Error ? error.message : String(error)}`);
+		logService.debug(`[agentHostTelemetry] Failed to resolve Kronos Moonshot extension version: ${error instanceof Error ? error.message : String(error)}`);
 		return undefined;
 	}
 }
@@ -269,7 +269,7 @@ export async function createAgentHostTelemetryService(options: IAgentHostTelemet
 		piiPaths: getPiiPathsFromEnvironment(environmentService),
 	}, configurationService, productService);
 
-	const extensionVersion = loggingOnly ? undefined : await resolveCopilotExtensionVersion(environmentService, fileService, logService);
+	const extensionVersion = loggingOnly ? undefined : await resolveMoonshotExtensionVersion(environmentService, fileService, logService);
 	const internalSender = loggingOnly ? undefined : disposables.add(new AgentHostInternalTelemetrySender({ requestService: options.requestService, commonProperties, extensionVersion }));
 	const restricted = loggingOnly ? undefined : new AgentHostRestrictedTelemetrySender(commonProperties, logService, undefined, internalSender, options.fetchFn);
 

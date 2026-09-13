@@ -55,7 +55,7 @@ export function getReasoningEffortLabel(level: string): string {
  * callers can omit the description rather than show an empty string.
  *
  * Wording mirrors the canonical extension helper `getReasoningEffortDescription`
- * in `extensions/copilot/src/extension/conversation/common/languageModelAccess.ts`
+ * in the Copilot Chat language model access layer
  * so every provider surfaces the same descriptions.
  */
 export function getReasoningEffortDescription(level: string): string | undefined {

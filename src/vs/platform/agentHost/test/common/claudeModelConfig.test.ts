@@ -86,7 +86,7 @@ suite('createClaudeThinkingLevelSchema (Phase 6.1 / Cycle D3)', () => {
 		// locks (a) `enum` ordering and `enumLabels` ordering stay 1:1 with
 		// the input, and (b) `default: 'high'` is emitted iff 'high' is in
 		// the supported list (mirror of the extension's rule at
-		// extensions/copilot/.../claudeCodeModels.ts:230).
+		// the Copilot Claude model configuration).
 		const fullUnion: readonly ClaudeEffortLevel[] = ['low', 'medium', 'high', 'xhigh', 'max'];
 		const lowMediumHigh: readonly ClaudeEffortLevel[] = ['low', 'medium', 'high'];
 		const highOnly: readonly ClaudeEffortLevel[] = ['high'];
@@ -201,4 +201,3 @@ suite('createClaudeThinkingLevelSchema (Phase 6.1 / Cycle D3)', () => {
 		});
 	});
 });
-

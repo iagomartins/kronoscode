@@ -87,7 +87,7 @@ function isClaudeModel(m: CCAModel): boolean {
  * CAPI `/models` payload already carries but the SDK type doesn't yet
  * declare. Tracked at microsoft/vscode-capi#85; remove this when the SDK
  * catches up. Mirror of the same pattern at
- * `extensions/copilot/src/platform/endpoint/common/endpointProvider.ts`
+ * the Copilot endpoint provider
  * (its locally-declared `IChatModelCapabilities`).
  */
 interface IClaudeModelSupports {

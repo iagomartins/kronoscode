@@ -229,7 +229,7 @@ export function getCopilotSmokeTestEnv(mockServer?: MockLlmServer, opts?: { user
 	// from the user's real `~/.copilot/` by pointing `XDG_STATE_HOME` at a
 	// sibling of the per-run `userDataDir`. The extension's `getCopilotHome()`
 	// / `getCopilotCLISessionStateDir()` (in
-	// `extensions/copilot/src/extension/chatSessions/copilotcli/node/cliHelpers.ts`)
+	// the Copilot CLI session helpers
 	// and the underlying CLI SDK both anchor to `XDG_STATE_HOME/.copilot/`
 	// when that env var is set, otherwise to `~/.copilot/`. Pinning it under
 	// the per-run `userDataDir` means the smoke-test cleanup (which removes
