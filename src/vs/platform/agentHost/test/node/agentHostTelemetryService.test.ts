@@ -123,14 +123,14 @@ suite('AgentHostTelemetryService', () => {
 		assert.strictEqual((service as unknown as { _restricted: AgentHostRestrictedTelemetrySender | undefined })._restricted, undefined);
 	});
 
-	test('uses the built-in Copilot manifest version for internal telemetry', async () => {
+	test('uses the built-in Moonshot manifest version for internal telemetry', async () => {
 		const localDisposables = disposables.add(new DisposableStore());
 		const logService = new NullLogService();
 		const fileService = localDisposables.add(new FileService(logService));
 		const fileSystemProvider = localDisposables.add(new InMemoryFileSystemProvider());
 		localDisposables.add(fileService.registerProvider(Schemas.file, fileSystemProvider));
-		await fileService.createFolder(URI.file('/extensions/copilot'));
-		await fileService.writeFile(URI.file('/extensions/copilot/package.json'), VSBuffer.fromString(JSON.stringify({ version: '0.58.0' })));
+		await fileService.createFolder(URI.file('/extensions/kronos-moonshot'));
+		await fileService.writeFile(URI.file('/extensions/kronos-moonshot/package.json'), VSBuffer.fromString(JSON.stringify({ version: '1.0.0' })));
 
 		const service = await createAgentHostTelemetryService({
 			environmentService: {
@@ -158,7 +158,7 @@ suite('AgentHostTelemetryService', () => {
 		const restricted = (service as unknown as { _restricted: AgentHostRestrictedTelemetrySender })._restricted;
 		const internalSender = (restricted as unknown as { _internalSink: AgentHostInternalTelemetrySender })._internalSink;
 
-		assert.strictEqual((internalSender as unknown as { _options: { extensionVersion: string | undefined } })._options.extensionVersion, '0.58.0');
+		assert.strictEqual((internalSender as unknown as { _options: { extensionVersion: string | undefined } })._options.extensionVersion, '1.0.0');
 	});
 
 	test('permanently disables usage and error telemetry after TelemetryLevel.NONE', async () => {

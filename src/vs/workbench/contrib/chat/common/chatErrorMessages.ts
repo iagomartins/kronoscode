@@ -10,7 +10,7 @@ import { ChatErrorLevel, IChatResponseErrorDetails } from './chatService/chatSer
 
 /**
  * Mirror of the Copilot extension's `ChatFetchResponseType` (see
- * `extensions/copilot/src/platform/chat/common/commonTypes.ts`). These string
+ * the Copilot integration). These string
  * values are forwarded verbatim from the agent host harnesses (Copilot CLI,
  * Claude, Codex) over `_meta`, so they MUST stay in sync with the extension.
  */
@@ -37,7 +37,7 @@ export const enum ChatFetchResponseType {
 
 /**
  * Mirror of the Copilot extension's `FilterReason` (see
- * `extensions/copilot/src/platform/networking/common/openai.ts`).
+ * the Copilot integration).
  */
 export const enum FilterReason {
 	Hate = 'hate',
@@ -92,7 +92,7 @@ const CanceledMessage: IChatResponseErrorDetails = { message: localize('chatErro
 /**
  * Converts a number of seconds into a human readable, localized string like
  * "6 hours 50 minutes". Based on the Copilot extension's
- * `secondsToHumanReadableTime` (`extensions/copilot/src/util/common/time.ts`),
+ * `secondsToHumanReadableTime` from the Copilot integration,
  * but the unit fragments are externalized so they translate in non-English
  * locales.
  */

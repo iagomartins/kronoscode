@@ -55,7 +55,7 @@ export interface IClaudeCanUseToolOptions {
  * until the workbench dispatches a response.
  *
  * The SDK owns general auto-approval / auto-denial via `permissionMode`
- * ([sdk.d.ts:1558](../../../../../../extensions/copilot/node_modules/@anthropic-ai/claude-agent-sdk/sdk.d.ts#L1558))
+ * (the Claude SDK declaration for `Options`).
  * and only invokes `canUseTool` for tools it has decided the host
  * needs to surface. The bridge additionally allows a server tool when its
  * current session state has nothing to confirm. The interactive built-ins (`AskUserQuestion`,

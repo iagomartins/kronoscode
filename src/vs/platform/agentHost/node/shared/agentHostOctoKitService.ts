@@ -14,7 +14,7 @@ export type FetchFunction = typeof globalThis.fetch;
  * Successful result of {@link IAgentHostOctoKitService.createPullRequest}.
  *
  * Mirrors the `CreatedPullRequest` type returned by `OctoKitService` in
- * `extensions/copilot/src/platform/github/common/githubService.ts` so the
+ * Copilot's GitHub service so the
  * shapes line up if/when the two are ported together.
  */
 export interface CreatedPullRequest {

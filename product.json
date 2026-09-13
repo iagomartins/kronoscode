@@ -38,27 +38,27 @@
 	"webviewContentExternalBaseUrlTemplate": "https://{{uuid}}.vscode-cdn.net/insider/ef65ac1ba57f57f2a3961bfe94aa20481caca4c6/out/vs/workbench/contrib/webview/browser/pre/",
 	"builtInExtensions": [],
 	"defaultChatAgent": {
-		"extensionId": "GitHub.copilot",
-		"chatExtensionId": "GitHub.copilot-chat",
-		"chatExtensionOutputId": "GitHub.copilot-chat.GitHub Copilot Chat.log",
-		"chatExtensionOutputExtensionStateCommand": "github.copilot.debug.extensionState",
-		"documentationUrl": "https://aka.ms/github-copilot-overview",
-		"termsStatementUrl": "https://aka.ms/github-copilot-terms-statement",
-		"privacyStatementUrl": "https://aka.ms/github-copilot-privacy-statement",
-		"skusDocumentationUrl": "https://aka.ms/github-copilot-plans",
-		"optimizeUsageDocumentationUrl": "https://aka.ms/token-usage-tips",
-		"publicCodeMatchesUrl": "https://aka.ms/github-copilot-match-public-code",
-		"managePlanUrl": "https://aka.ms/github-copilot-manage-plan",
-		"upgradePlanUrl": "https://aka.ms/github-copilot-upgrade-plan",
-		"signUpUrl": "https://aka.ms/github-sign-up",
+		"extensionId": "kronos.kronos-moonshot",
+		"chatExtensionId": "kronos.kronos-moonshot",
+		"chatExtensionOutputId": "kronos.kronos-moonshot.K2 Moonshot.log",
+		"chatExtensionOutputExtensionStateCommand": "",
+		"documentationUrl": "https://github.com/iagomartins/kronoscode",
+		"termsStatementUrl": "https://platform.moonshot.cn/docs/agreement",
+		"privacyStatementUrl": "https://platform.moonshot.cn/docs/agreement",
+		"skusDocumentationUrl": "https://platform.moonshot.cn/docs/pricing",
+		"optimizeUsageDocumentationUrl": "https://platform.moonshot.cn/docs",
+		"publicCodeMatchesUrl": "https://github.com/iagomartins/kronoscode",
+		"managePlanUrl": "https://platform.moonshot.cn/console",
+		"upgradePlanUrl": "https://platform.moonshot.cn/console",
+		"signUpUrl": "https://platform.moonshot.cn/console",
 		"provider": {
 			"default": {
-				"id": "github",
-				"name": "GitHub"
+				"id": "kronos",
+				"name": "Kronos"
 			},
 			"enterprise": {
-				"id": "github-enterprise",
-				"name": "GHE"
+				"id": "kronos-enterprise",
+				"name": "Kronos Enterprise"
 			},
 			"google": {
 				"id": "google",
@@ -69,46 +69,26 @@
 				"name": "Apple"
 			}
 		},
-		"providerExtensionId": "vscode.github-authentication",
-		"providerUriSetting": "github-enterprise.uri",
-		"providerScopes": [
-			[
-				"read:user",
-				"user:email",
-				"repo",
-				"workflow"
-			],
-			[
-				"user:email"
-			],
-			[
-				"read:user"
-			]
-		],
-		"entitlementUrl": "https://api.github.com/copilot_internal/user",
-		"entitlementSignupLimitedUrl": "https://api.github.com/copilot_internal/subscribe_limited_user",
-		"chatQuotaExceededContext": "github.copilot.chat.quotaExceeded",
-		"completionsQuotaExceededContext": "github.copilot.completions.quotaExceeded",
-		"walkthroughCommand": "github.copilot.open.walkthrough",
-		"completionsMenuCommand": "github.copilot.toggleStatusMenu",
-		"chatRefreshTokenCommand": "github.copilot.refreshToken",
-		"generateCommitMessageCommand": "github.copilot.git.generateCommitMessage",
-		"resolveMergeConflictsCommand": "github.copilot.git.resolveMergeConflicts",
-		"completionsAdvancedSetting": "github.copilot.advanced",
-		"completionsEnablementSetting": "github.copilot.enable",
-		"nextEditSuggestionsSetting": "github.copilot.nextEditSuggestions.enabled",
-		"tokenEntitlementUrl": "https://api.github.com/copilot_internal/v2/token",
-		"mcpRegistryDataUrl": "https://api.github.com/copilot/mcp_registry",
-		"managedSettingsUrl": "https://api.github.com/copilot_internal/managed_settings"
+		"providerExtensionId": "kronos.kronos-moonshot",
+		"providerUriSetting": "kronos.moonshot.baseUrl",
+		"providerScopes": [],
+		"entitlementUrl": "",
+		"entitlementSignupLimitedUrl": "",
+		"tokenEntitlementUrl": "",
+		"mcpRegistryDataUrl": "",
+		"managedSettingsUrl": "",
+		"chatQuotaExceededContext": "kronos.moonshot.chat.quotaExceeded",
+		"completionsQuotaExceededContext": "kronos.moonshot.completions.quotaExceeded",
+		"walkthroughCommand": "",
+		"completionsMenuCommand": "",
+		"chatRefreshTokenCommand": "",
+		"generateCommitMessageCommand": "",
+		"resolveMergeConflictsCommand": "",
+		"completionsAdvancedSetting": "kronos.moonshot.advanced",
+		"completionsEnablementSetting": "kronos.moonshot.enable",
+		"nextEditSuggestionsSetting": "kronos.moonshot.nextEditSuggestions.enabled"
 	},
-	"trustedExtensionAuthAccess": {
-		"github": [
-			"GitHub.copilot-chat"
-		],
-		"github-enterprise": [
-			"GitHub.copilot-chat"
-		]
-	},
+	"trustedExtensionAuthAccess": {},
 	"onboardingKeymaps": [
 		{
 			"id": "vscode",
@@ -184,9 +164,7 @@
 			"type": "light"
 		}
 	],
-	"builtInExtensionsEnabledWithAutoUpdates": [
-		"GitHub.copilot-chat"
-	],
+	"builtInExtensionsEnabledWithAutoUpdates": [],
 	"sessionsWindowAllowedExtensions": [],
 	"voiceWsUrl": "wss://falcon-caas.mai.microsoft.com/voice-code/api/v1/realtime/voice"
 }

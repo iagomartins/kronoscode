@@ -148,10 +148,6 @@ jobs:
       - name: Transpile source
         run: npm run transpile-client
 
-      - name: Build copilot extension
-        run: npm run compile
-        working-directory: extensions/copilot
-
       - name: Download Electron
         run: node build/lib/preLaunch.ts
 
@@ -198,7 +194,6 @@ jobs:
           name: build-output
           path: |
             out/
-            extensions/copilot/dist/
           retention-days: 1
 
   # ── Perf comparison (split across matrix groups) ─────────────────────
