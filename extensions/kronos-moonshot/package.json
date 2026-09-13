@@ -1,0 +1,96 @@
+{
+	"name": "kronos-moonshot",
+	"displayName": "%displayName%",
+	"description": "%description%",
+	"version": "1.0.0",
+	"publisher": "kronos",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.134.0"
+	},
+	"enabledApiProposals": [],
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"capabilities": {
+		"virtualWorkspaces": true,
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
+	"activationEvents": [
+		"onView:workbench.panel.chat.view.copilot",
+		"onChatParticipant:kronos-ai",
+		"onCommand:kronos.moonshot.setApiKey",
+		"onCommand:kronos.moonshot.openSettings"
+	],
+	"main": "./out/extension",
+	"scripts": {
+		"compile": "gulp compile-extension:kronos-moonshot",
+		"watch": "gulp watch-extension:kronos-moonshot"
+	},
+	"contributes": {
+		"chatParticipants": [
+			{
+				"id": "kronos-ai",
+				"name": "kronos-ai",
+				"fullName": "K2 Moonshot",
+				"description": "%kronos.moonshot.participant.description%",
+				"isDefault": false,
+				"isSticky": true
+			}
+		],
+		"commands": [
+			{
+				"command": "kronos.moonshot.setApiKey",
+				"title": "K2 Moonshot: Set Moonshot API Key",
+				"category": "K2 Moonshot"
+			},
+			{
+				"command": "kronos.moonshot.openSettings",
+				"title": "K2 Moonshot: Open Settings",
+				"category": "K2 Moonshot"
+			}
+		],
+		"configuration": {
+			"title": "K2 Moonshot",
+			"properties": {
+				"kronos.moonshot.apiKey": {
+					"type": "string",
+					"default": "",
+					"scope": "application",
+					"markdownDescription": "%kronos.moonshot.apiKey%"
+				},
+				"kronos.moonshot.defaultModel": {
+					"type": "string",
+					"default": "moonshot-v1-8k",
+					"enum": [
+						"moonshot-v1-8k",
+						"moonshot-v1-32k",
+						"moonshot-v1-128k"
+					],
+					"enumDescriptions": [
+						"%kronos.moonshot.model.8k%",
+						"%kronos.moonshot.model.32k%",
+						"%kronos.moonshot.model.128k%"
+					],
+					"description": "%kronos.moonshot.defaultModel%"
+				},
+				"kronos.moonshot.baseUrl": {
+					"type": "string",
+					"default": "https://api.moonshot.cn/v1",
+					"scope": "application",
+					"description": "%kronos.moonshot.baseUrl%"
+				}
+			}
+		}
+	},
+	"devDependencies": {
+		"@types/node": "24.x"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iagomartins/kronoscode.git"
+	}
+}
