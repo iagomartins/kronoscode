@@ -345,18 +345,37 @@ function formatReference(uri: vscode.Uri, text: string): string {
 }
 
 async function getApiKey(secrets: vscode.SecretStorage): Promise<string | undefined> {
+	// Step 1: Check native secret storage first
 	const stored = (await secrets.get(API_KEY_SECRET))?.trim();
 	if (stored) {
 		return stored;
 	}
 
+	// Step 2: Check new configuration namespace
 	const config = vscode.workspace.getConfiguration(CONFIG_SECTION);
-	const value = config.inspect<string>('apiKey')?.globalValue?.trim();
-	if (value) {
-		await secrets.store(API_KEY_SECRET, value);
+	const newValue = config.inspect<string>('apiKey')?.globalValue?.trim();
+	if (newValue) {
+		await secrets.store(API_KEY_SECRET, newValue);
 		await config.update('apiKey', undefined, vscode.ConfigurationTarget.Global);
-		return value;
+		return newValue;
 	}
+
+	// Step 3: Check legacy configuration namespace (kronosCode.k2ApiKey)
+	const legacyConfig = vscode.workspace.getConfiguration('kronosCode');
+	const legacyValue = legacyConfig.inspect<string>('k2ApiKey')?.globalValue?.trim();
+	if (legacyValue) {
+		await secrets.store(API_KEY_SECRET, legacyValue);
+		await legacyConfig.update('k2ApiKey', undefined, vscode.ConfigurationTarget.Global);
+		return legacyValue;
+	}
+
+	// Step 4: Check legacy environment variable (K2_API_KEY)
+	const envValue = process.env.K2_API_KEY?.trim();
+	if (envValue) {
+		await secrets.store(API_KEY_SECRET, envValue);
+		return envValue;
+	}
+
 	return undefined;
 }
 

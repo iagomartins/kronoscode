@@ -11,8 +11,8 @@ import type { IAgentHostInternalTelemetryContext, IAgentHostInternalTelemetrySin
 
 // Public instrumentation key used by internal agent-host telemetry.
 const INTERNAL_LARGE_STORAGE_ARIA_KEY = 'ec712b3202c5462fb6877acae7f1f9d7-c19ad55e-3e3c-4f99-984b-827f6d95bd9e-6917';
-const INTERNAL_EVENT_PREFIX = 'kronos.moonshot';
-const INTERNAL_EXTENSION_ID = 'kronos.moonshot';
+const INTERNAL_EVENT_PREFIX = 'kronos.kronos-moonshot';
+const INTERNAL_EXTENSION_ID = 'kronos.kronos-moonshot';
 
 interface IInternalTelemetryAppender {
 	log(eventName: string, data?: object): void;
