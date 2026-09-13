@@ -88,16 +88,16 @@ else {
 			licenseUrl: 'https://github.com/iagomartins/kronoscode/blob/main/LICENSE.txt',
 			serverLicenseUrl: 'https://github.com/iagomartins/kronoscode/blob/main/LICENSE.txt',
 			defaultChatAgent: {
-				extensionId: 'GitHub.copilot',
-				chatExtensionId: 'GitHub.copilot-chat',
+				extensionId: 'kronos.kronos-moonshot',
+				chatExtensionId: 'kronos.kronos-moonshot',
 				provider: {
 					default: {
-						id: 'github',
-						name: 'GitHub',
+						id: 'kronos',
+						name: 'Kronos',
 					},
 					enterprise: {
-						id: 'github-enterprise',
-						name: 'GitHub Enterprise',
+						id: 'kronos-enterprise',
+						name: 'Kronos Enterprise',
 					}
 				},
 				providerScopes: []

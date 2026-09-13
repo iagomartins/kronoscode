@@ -7,7 +7,7 @@
  * Edit-survival math for agent-host file edits.
  *
  * Sister implementation of the chat extension's `EditSurvivalTracker`
- * (`extensions/copilot/src/platform/editSurvivalTracking/common/editSurvivalTracker.ts`).
+ * (the Copilot edit-survival tracking implementation).
  * The extension version operates on multi-range `StringEdit`s with a
  * live `TextModel`; here we only have whole-file snapshots and (when
  * the tool input is recognisable) the explicit text the AI wrote. The

@@ -1680,7 +1680,7 @@ export class CopilotAgent extends Disposable implements IAgent {
 	/**
 	 * Synthesize a `contextSize` config property when the model exposes a `long_context` pricing tier with a distinct
 	 * context-max. Picker surfaces this as the "Context Size" button. Mirrors `getContextSizeOptions` in
-	 * `extensions/copilot/src/extension/chat/vscode-node/languageModelAccess.ts`.
+	 * the Copilot Chat language model access layer.
 	 *
 	 * The `enum` values are the two context-window sizes (in tokens), smallest first, so the numeric token counts
 	 * flow to the client. The chosen value comes back in the model's `config` bag and is mapped to the SDK's

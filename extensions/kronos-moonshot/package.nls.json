@@ -1,0 +1,11 @@
+{
+	"displayName": "K2 Moonshot",
+	"description": "Kronos Code native AI chat powered by Moonshot AI (Kimi K2).",
+	"kronos.moonshot.participant.description": "Chat with Moonshot AI (Kimi K2) using your own API key.",
+	"kronos.moonshot.apiKey": "Moonshot API key. This value is stored in user settings; use the Set Moonshot API Key command to enter it securely.",
+	"kronos.moonshot.defaultModel": "Default Moonshot model.",
+	"kronos.moonshot.model.8k": "Moonshot V1 8K",
+	"kronos.moonshot.model.32k": "Moonshot V1 32K",
+	"kronos.moonshot.model.128k": "Moonshot V1 128K",
+	"kronos.moonshot.baseUrl": "Moonshot API base URL."
+}

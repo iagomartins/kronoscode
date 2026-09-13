@@ -5,7 +5,7 @@
 
 /**
  * Platform-side mirror of the extension's GenAI attribute constants.
- * Kept intentionally in sync with `extensions/copilot/src/platform/otel/common/genAiAttributes.ts`.
+ * Kept intentionally in sync with the Copilot integration's GenAI attributes.
  */
 
 // gen_ai.operation.name values

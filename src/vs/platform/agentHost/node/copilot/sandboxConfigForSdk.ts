@@ -47,7 +47,7 @@ export type CopilotSandboxConfig = SdkSandboxConfig & {
  * this function is not consulted.
  *
  * Mirrors `buildSandboxConfigForCLI` in
- * `extensions/copilot/src/extension/chatSessions/copilotcli/node/copilotcliSessionService.ts`
+ * the Copilot CLI session service
  * so the two surfaces behave the same:
  *  - Path precedence: `denyRead` > `denyWrite` > `allowWrite` > `allowRead`.
  *    Each path appears in exactly one of `deniedPaths` / `readonlyPaths` /
