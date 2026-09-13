@@ -65,7 +65,7 @@ async function handleRequest(
 	const apiKey = config.get<string>('apiKey')?.trim();
 	if (!apiKey) {
 		const markdown = new vscode.MarkdownString(
-			'**K2 Moonshot needs a Moonshot API key.**\n\nSet `kronos.moonshot.apiKey` to get started:\n\n- [Set API key](command:kronos.moonshot.setApiKey)\n- [Open settings](command:workbench.action.openSettings)\n\nYou can create a key at https://platform.moonshot.cn/console/api-keys.'
+			'**K2 Moonshot needs a Moonshot API key.**\n\nSet `kronos.moonshot.apiKey` to get started:\n\n- [Set API key](command:kronos.moonshot.setApiKey)\n- [Open settings](command:kronos.moonshot.openSettings)\n\nYou can create a key at https://platform.moonshot.cn/console/api-keys.'
 		);
 		markdown.isTrusted = { enabledCommands: [SET_API_KEY_COMMAND, OPEN_SETTINGS_COMMAND] };
 		stream.markdown(markdown);
