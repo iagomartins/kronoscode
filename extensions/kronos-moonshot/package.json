@@ -8,7 +8,9 @@
 	"engines": {
 		"vscode": "^1.134.0"
 	},
-	"enabledApiProposals": [],
+	"enabledApiProposals": [
+		"chatProvider"
+	],
 	"extensionKind": [
 		"ui",
 		"workspace"
@@ -22,6 +24,7 @@
 	"activationEvents": [
 		"onView:workbench.panel.chat.view.copilot",
 		"onChatParticipant:kronos-ai",
+		"onLanguageModelChatProvider:moonshot",
 		"onCommand:kronos.moonshot.setApiKey",
 		"onCommand:kronos.moonshot.openSettings"
 	],
@@ -31,6 +34,12 @@
 		"watch": "gulp watch-extension:kronos-moonshot"
 	},
 	"contributes": {
+		"languageModelChatProviders": [
+			{
+				"vendor": "moonshot",
+				"displayName": "Moonshot AI"
+			}
+		],
 		"chatParticipants": [
 			{
 				"id": "kronos-ai",
